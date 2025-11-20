@@ -26,9 +26,33 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public String listUsers(Model model) {
+    public String listUsers(Model model,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "size", defaultValue = "10") int size) {
         List<User> allUsers = userService.getAllUsers();
-        model.addAttribute("users", allUsers);
+
+        int totalUsers = allUsers.size();
+        int pageSize = size > 0 ? size : 10;
+        int currentPage = page < 1 ? 1 : page;
+        int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+        if (totalPages < 1) {
+            totalPages = 1;
+        }
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        int fromIndex = (currentPage - 1) * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalUsers);
+
+        List<User> usersPage = allUsers.subList(Math.min(fromIndex, totalUsers), Math.min(toIndex, totalUsers));
+
+        model.addAttribute("users", usersPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("totalUsers", totalUsers);
+
         return "userList";
     }
 
@@ -122,4 +146,3 @@ public class UserController {
         return user;
     }
 }
-

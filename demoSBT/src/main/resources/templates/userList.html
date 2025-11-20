@@ -8,6 +8,14 @@
 <body>
 <h1>Liste des Utilisateurs</h1>
 
+<!-- Success / Error flash messages -->
+<div th:if="${successMessage}" class="flash success">
+    <p th:text="${successMessage}"></p>
+</div>
+<div th:if="${errorMessage}" class="flash error">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 <p>
     <a th:href="@{/}">Retour à l'accueil</a> |
     <a th:href="@{/users/add}">Ajouter un utilisateur</a>
@@ -43,8 +51,28 @@
             </tr>
         </tbody>
     </table>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        <span th:if="${totalPages > 1}">
+            <a th:if="${currentPage > 1}"
+               th:href="@{/users(page=${currentPage - 1}, size=${pageSize})}">Précédent</a>
+            <span th:unless="${currentPage > 1}">Précédent</span>
+
+            <span th:each="p : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${p != currentPage}"
+                   th:href="@{/users(page=${p}, size=${pageSize})}"
+                   th:text="${p}">1</a>
+                <span th:if="${p == currentPage}" th:text="${p}"></span>
+            </span>
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/users(page=${currentPage + 1}, size=${pageSize})}">Suivant</a>
+            <span th:unless="${currentPage < totalPages}">Suivant</span>
+        </span>
+    </div>
+
 </div>
 
 </body>
 </html>
-
