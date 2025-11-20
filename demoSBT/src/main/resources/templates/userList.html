@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des Utilisateurs</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1>Liste des Utilisateurs</h1>
+
+<p>
+    <a th:href="@{/}">Retour à l'accueil</a> |
+    <a th:href="@{/users/add}">Ajouter un utilisateur</a>
+</p>
+
+<div th:if="${users.empty}">
+    <p>Aucun utilisateur trouvé.</p>
+</div>
+
+<div th:unless="${users.empty}">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Date de naissance</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.nom}">Dupont</td>
+                <td th:text="${user.prenom}">Jean</td>
+                <td th:text="${user.email}">jean.dupont@example.com</td>
+                <td th:text="${#temporals.format(user.dateNaissance, 'dd/MM/yyyy')}">01/01/1990</td>
+                <td>
+                    <a th:href="@{/users/edit/{id}(id=${user.id})}">Modifier</a>
+                    <a th:href="@{/users/delete/{id}(id=${user.id})}">Supprimer</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
