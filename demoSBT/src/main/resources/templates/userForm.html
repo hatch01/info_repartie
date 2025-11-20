@@ -8,7 +8,6 @@
 <body>
 <h1 th:text="${isEdit ? 'Modifier un Utilisateur' : 'Créer un Utilisateur'}">Formulaire</h1>
 
-<!-- Flash messages -->
 <div th:if="${successMessage}" class="flash success">
     <p th:text="${successMessage}"></p>
 </div>

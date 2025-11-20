@@ -8,7 +8,6 @@
 <body>
 <h1>Liste des Utilisateurs</h1>
 
-<!-- Success / Error flash messages -->
 <div th:if="${successMessage}" class="flash success">
     <p th:text="${successMessage}"></p>
 </div>
@@ -52,7 +51,6 @@
         </tbody>
     </table>
 
-    <!-- Pagination controls -->
     <div class="pagination">
         <span th:if="${totalPages > 1}">
             <a th:if="${currentPage > 1}"
