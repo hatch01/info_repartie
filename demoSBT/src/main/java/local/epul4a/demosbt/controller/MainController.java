@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
-    private static List<Person> persons = new ArrayList<Person>();
+    private static final List<Person> persons = new ArrayList<>();
     static {
         persons.add(new Person("Bill", "Gates"));
         persons.add(new Person("Steve", "Jobs"));
@@ -42,8 +42,8 @@ public class MainController {
                              @ModelAttribute("personForm") PersonForm personForm) {
         String firstName = personForm.getFirstName();
         String lastName = personForm.getLastName();
-        if (firstName != null && firstName.length() > 0 //
-                && lastName != null && lastName.length() > 0) {
+        if (firstName != null && !firstName.isEmpty() //
+                && lastName != null && !lastName.isEmpty()) {
             Person newPerson = new Person(firstName, lastName);
             persons.add(newPerson);
             return "redirect:/personList";
